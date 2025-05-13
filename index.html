@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Reset dasar */
+        body, h1, button, p, span, div {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        /* Styling untuk header container */
+        .header-container {
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            padding: 15px 0px;
+            margin-bottom: 20px;
+            column-gap: 30px;
+        }
+
+        .header-container h1 {
+            font-size: 50px;
+        }
+
+        .header-container input {
+            padding: 0 20px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            height: 60px;
+            flex-grow: 1;
+            font-size: 18px;
+        }
+
+        /* --- MAIN LAYOUT (Sidebar dan Konten Utama) --- */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Styling untuk container tombol sidebar */
+        .sidebar-button-container {
+            display:flex;
+            gap: 10px;
+            flex-direction: column;
+            width: 250px;
+            flex-shrink: 0;
+        }
+
+        /* Styling dasar untuk tombol sidebar */
+        .sidebar-button {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 20px;
+            padding: 12px 15px;
+            background-color: white;      /* Latar default putih */
+            border-radius: 8px;
+            border: 1px solid #cccccc;    /* Border default yang terlihat, misal abu-abu muda */
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            color: #495057;               /* Warna teks default */
+        }
+
+        /* Styling untuk ikon di dalam sidebar-button */
+        .sidebar-button i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: #6c757d;               /* Warna ikon default */
+            transition: color 0.3s ease;
+        }
+
+        /* Style HANYA untuk tombol yang sedang AKTIF */
+        .sidebar-button.active {
+            background-color: #ffffff;  /* Latar abu-abu muda untuk tombol aktif */
+            border-color: #adb5bd;      /* Border lebih gelap untuk tombol aktif */
+            color: #212529;             /* Warna teks lebih gelap untuk tombol aktif */
+            /* font-weight: bold; */    /* Opsional: buat teks tebal jika aktif */
+        }
+
+        .sidebar-button.active i {
+            color: #212529;             /* Warna ikon yang sesuai untuk tombol aktif */
+        }
+
+        /* Style HANYA untuk saat di-HOVER */
+        .sidebar-button:hover {
+            background-color: #000000;  /* Latar hitam saat hover */
+            border-color: #000000;      /* Border hitam saat hover */
+            color: #ffffff;             /* Teks putih saat hover */
+        }
+
+        .sidebar-button:hover i {
+            color: #ffffff;             /* Ikon putih saat hover */
+        }
+
+        /* Efek focus (setelah tombol diklik) - Opsional */
+        .sidebar-button:focus {
+            outline: 2px solid #007bff; /* Biru untuk outline fokus */
+            outline-offset: 2px;
+            /* Anda juga bisa menambahkan style khusus untuk border-color saat fokus jika diinginkan,
+               misalnya: border-color: #007bff; */
+        }
+
+        /* --- KONTEN UTAMA (Daftar Pengguna) --- */
+        .main-content-area {
+            flex-grow: 1;
+            background-color: #ffffff;
+            padding: 0;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info .name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 3px;
+            color: #212529;
+        }
+
+        .user-info .email {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+
+        .user-info .tags span {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            color: white;
+            background-color: #6c757d;
+            display: inline-block;
+        }
+        .user-info .tags span.admin {
+            background-color: #495057;
+        }
+        .user-info .tags span.employee {
+            background-color: #adb5bd;
+        }
+
+        .user-status {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .user-status.aktif {
+            color: #28a745;
+        }
+        .user-status.suspended {
+            color: #dc3545;
+        }
+
+        /* Styling untuk Tombol Tambah Floating Action Button (FAB) */
+        .tombol-tambah-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #555555;
+            color: white;
+            border: none;
+            border-radius: 5%;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 1000;
+        }
+
+        .tombol-tambah-fab:hover {
+            background-color: #333333;
+            transform: scale(1.05);
+        }
+
+        .tombol-tambah-fab:active {
+            background-color: #222222;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>Connect</h1>
+        <input placeholder="Search Bar">
+    </div>
+
+    <div class="main-layout">
+        <div class="sidebar-button-container">
+            <button class="sidebar-button active"> <i class="fas fa-user"></i> <span>User</span>
+            </button>
+            <button class="sidebar-button">
+                <i class="fas fa-shield-alt"></i> <span>Hak Akses</span>
+            </button>
+            <button class="sidebar-button">
+                <i class="fas fa-sign-out-alt"></i> <span>Log out</span>
+            </button>
+        </div>
+
+        <div class="main-content-area">
+            <div class="user-item">
+                <div class="user-info">
+                    <p class="name">Rahmat Saudi Al Fathir As</p>
+                    <p class="email">rahmatsaudi@universitasmulia.ac.id</p>
+                    <div class="tags">
+                        <span class="admin">Admin</span>
+                        <span class="employee">Employee</span>
+                    </div>
+                </div>
+                <div class="user-status aktif">Aktif</div>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <p class="name">Lintang</p>
+                    <p class="email">lintang@universitasmulia.ac.id</p>
+                    <div class="tags">
+                        <span class="employee">Employee</span>
+                    </div>
+                </div>
+                <div class="user-status aktif">Aktif</div>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <p class="name">Shafira</p>
+                    <p class="email">shafira@universitasmulia.ac.id</p>
+                    <div class="tags">
+                        <span class="employee">Employee</span>
+                    </div>
+                </div>
+                <div class="user-status aktif">Aktif</div>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <p class="name">Lebah Ganteng</p>
+                    <p class="email">lebahganteng@universitasmulia.ac.id</p>
+                    <div class="tags">
+                        <span class="employee">Employee</span>
+                    </div>
+                </div>
+                <div class="user-status suspended">Suspended</div>
+            </div>
+        </div>
+    </div>
+    <button class="tombol-tambah-fab">
+        <i class="fas fa-plus"></i>
+    </button>
+</body>
+</html>
